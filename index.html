@@ -3,578 +3,567 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CleanBooks — Agency Manager</title>
+<title>CleanBooks</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f0efeb;--card:#fff;--sidebar:#fff;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);--text:#1a1a1a;--muted:#6b6b6b;--green:#0F6E56;--green2:#1D9E75;--radius:8px;--radius2:12px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0efeb;color:#1a1a1a;font-size:14px}
 .layout{display:flex;min-height:100vh}
-.sidebar{width:215px;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
-.logo{padding:18px 16px;border-bottom:1px solid var(--border)}
-.logo-title{font-size:16px;font-weight:700;color:var(--green);letter-spacing:-.3px}
-.logo-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.nav{padding:8px 0;flex:1}
-.ni{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:all .15s;user-select:none}
-.ni:hover{background:#f7f7f5;color:var(--text)}
-.ni.active{color:var(--green);background:#E1F5EE;border-left-color:var(--green2);font-weight:600}
-.ni svg{width:16px;height:16px;flex-shrink:0}
-.nbadge{margin-left:auto;background:#E1F5EE;color:var(--green);font-size:11px;padding:1px 7px;border-radius:10px;font-weight:700}
-.main{flex:1;overflow-y:auto;padding:24px;min-width:0}
+.sidebar{width:210px;background:#fff;border-right:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.logo{padding:16px;border-bottom:1px solid rgba(0,0,0,.1)}
+.logo h1{font-size:16px;font-weight:700;color:#0F6E56}
+.logo p{font-size:11px;color:#888;margin-top:2px}
+.nav{padding:8px 0}
+.nav a{display:flex;align-items:center;gap:8px;padding:9px 16px;cursor:pointer;font-size:13px;color:#666;border-left:2px solid transparent;text-decoration:none;transition:.15s}
+.nav a:hover{background:#f5f5f5;color:#1a1a1a}
+.nav a.active{color:#0F6E56;background:#E1F5EE;border-left-color:#1D9E75;font-weight:600}
+.main{flex:1;padding:24px;overflow-y:auto}
 .page{display:none}.page.active{display:block}
-.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px}
-.pt{font-size:19px;font-weight:700;letter-spacing:-.3px}
-.btn{padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--card);color:var(--text);cursor:pointer;font-size:13px;font-family:inherit;transition:background .12s;font-weight:500}
-.btn:hover{background:#f7f7f5}.btn:active{transform:scale(.98)}
-.btnp{background:var(--green2);color:#fff;border-color:var(--green2)}.btnp:hover{background:var(--green);border-color:var(--green)}
-.btnd{background:#FCEBEB;color:#A32D2D;border-color:#F09595}.btnd:hover{background:#F7C1C1}
-.btns{padding:4px 10px;font-size:12px}
-.bg{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}
-.metric{border-radius:var(--radius2);padding:16px 18px;position:relative;overflow:hidden;color:#fff}
-.m1{background:#0F6E56}.m2{background:#185FA5}.m3{background:#534AB7}.m4{background:#854F0B}
-.mlabel{font-size:12px;opacity:.8;margin-bottom:5px;font-weight:500}
-.mval{font-size:28px;font-weight:700;letter-spacing:-.5px}
-.msub{font-size:11px;opacity:.65;margin-top:3px}
-.mbg{position:absolute;right:-8px;bottom:-12px;font-size:64px;opacity:.1;line-height:1;pointer-events:none}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:16px;margin-bottom:16px}
-.ctitle{font-size:14px;font-weight:600;margin-bottom:14px}
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:9px 12px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
-td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tbody tr:hover td{background:#f7f7f5}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
-.bt{background:#E1F5EE;color:#0F6E56}.bb{background:#E6F1FB;color:#185FA5}.bg2{background:#F1EFE8;color:#5F5E5A}.bp{background:#EEEDFE;color:#534AB7}.br{background:#FCEBEB;color:#A32D2D}.bgn{background:#EAF3DE;color:#3B6D11}
-input,select,textarea{font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--card);color:var(--text);width:100%;transition:border-color .15s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green2);box-shadow:0 0 0 3px rgba(29,158,117,.12)}
-label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500}
-.fg{margin-bottom:12px}
-.fr2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:flex-start;justify-content:center;padding-top:48px}
-.overlay.open{display:flex}
-.modal{background:var(--card);border-radius:var(--radius2);padding:22px;width:540px;max-height:85vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.15)}
-.mhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.mtitle{font-size:16px;font-weight:700;letter-spacing:-.2px}
-.mclose{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;padding:2px 6px;border-radius:4px}
-.mclose:hover{background:#f7f7f5}
-.mfooter{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
-.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;gap:4px}
-.tab{padding:8px 14px;cursor:pointer;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:500;border-radius:6px 6px 0 0;transition:all .12s}
-.tab:hover{background:#f7f7f5;color:var(--text)}
-.tab.active{color:var(--green2);border-bottom-color:var(--green2);background:#f0fbf7}
-.tp{display:none}.tp.active{display:block}
-.alert{padding:11px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:12px;font-weight:500;line-height:1.5}
-.ai{background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4}
-.as{background:#E1F5EE;color:#0F6E56;border:1px solid #9FE1CB}
-.aw{background:#FAEEDA;color:#854F0B;border:1px solid #FAC775}
-.ae{background:#FCEBEB;color:#A32D2D;border:1px solid #F7C1C1}
-.slbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin:18px 0 8px}
-.prow{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:opacity .2s}
-.prow.done{opacity:.4}
-.pname{font-weight:700;font-size:14px;min-width:120px}
-.pdetail{font-size:12px;color:var(--muted);flex:1;min-width:160px}
-.pamt{font-size:17px;font-weight:700;color:var(--green);min-width:65px;text-align:right}
-.pactions{display:flex;gap:6px}
-.search{width:230px}
-.empty{text-align:center;padding:48px 20px;color:var(--muted)}
-.dz{border:2px dashed var(--border2);border-radius:var(--radius2);padding:36px;text-align:center;cursor:pointer;transition:all .15s}
-.dz:hover,.dz.over{border-color:var(--green2);background:#f0fbf7}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px}
+.ph h2{font-size:19px;font-weight:700}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:800px){.metrics{grid-template-columns:1fr 1fr}}
+.metric{border-radius:12px;padding:16px;color:#fff;position:relative;overflow:hidden}
+.metric.g{background:#0F6E56}.metric.b{background:#185FA5}.metric.p{background:#534AB7}.metric.a{background:#854F0B}
+.metric .icon{position:absolute;right:-5px;bottom:-10px;font-size:60px;opacity:.1}
+.metric label{font-size:12px;opacity:.8;display:block;margin-bottom:4px}
+.metric .val{font-size:26px;font-weight:700}
+.metric .sub{font-size:11px;opacity:.65;margin-top:2px}
+.card{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:12px;padding:16px;margin-bottom:16px}
+.card h3{font-size:14px;font-weight:600;margin-bottom:12px}
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.dr{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);align-items:center}
-.dr:last-child{border-bottom:none}
-.pb{background:#f7f7f5;border-radius:4px;height:6px;overflow:hidden;margin-top:8px}
-.pf{height:100%;background:var(--green2);transition:width .3s}
-@media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}.twocol{grid-template-columns:1fr}}
-@media print{.sidebar,.btn,.pactions,#pu-config{display:none!important}.main{padding:0}.prow.done{display:none}}
+@media(max-width:700px){.twocol{grid-template-columns:1fr}}
+.btn{padding:7px 14px;border-radius:8px;border:1px solid rgba(0,0,0,.18);background:#fff;cursor:pointer;font-size:13px;font-family:inherit;font-weight:500;transition:.12s}
+.btn:hover{background:#f5f5f5}.btn.primary{background:#1D9E75;color:#fff;border-color:#1D9E75}.btn.primary:hover{background:#0F6E56}
+.btn.danger{background:#FCEBEB;color:#A32D2D;border-color:#F09595}.btn.sm{padding:4px 9px;font-size:12px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select,textarea{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid rgba(0,0,0,.18);border-radius:8px;background:#fff;color:#1a1a1a;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,.1)}
+label.lbl{font-size:12px;color:#666;display:block;margin-bottom:3px;font-weight:500}
+.fg{margin-bottom:11px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 11px;font-weight:600;color:#888;border-bottom:1px solid rgba(0,0,0,.1);font-size:11px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+td{padding:8px 11px;border-bottom:1px solid rgba(0,0,0,.08);vertical-align:middle}
+tr:last-child td{border:none}
+tr:hover td{background:#fafaf8}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.badge.teal{background:#E1F5EE;color:#0F6E56}
+.badge.blue{background:#E6F1FB;color:#185FA5}
+.badge.gray{background:#F1EFE8;color:#5F5E5A}
+.badge.purple{background:#EEEDFE;color:#534AB7}
+.badge.red{background:#FCEBEB;color:#A32D2D}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:flex-start;justify-content:center;padding-top:50px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;padding:22px;width:520px;max-height:82vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.mhead h3{font-size:16px;font-weight:700}
+.mclose{background:none;border:none;font-size:22px;cursor:pointer;color:#888;padding:0 4px}
+.mfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1)}
+.tabs{display:flex;border-bottom:1px solid rgba(0,0,0,.1);margin-bottom:14px}
+.tab{padding:7px 14px;cursor:pointer;font-size:13px;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:500}
+.tab.active{color:#1D9E75;border-bottom-color:#1D9E75}
+.tp{display:none}.tp.active{display:block}
+.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;line-height:1.5}
+.alert.info{background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4}
+.alert.success{background:#E1F5EE;color:#0F6E56;border:1px solid #9FE1CB}
+.alert.warn{background:#FAEEDA;color:#854F0B;border:1px solid #FAC775}
+.slbl{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px}
+.prow{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.prow.done{opacity:.4}
+.pname{font-weight:700;font-size:14px;flex:1;min-width:140px}
+.pdetail{font-size:12px;color:#888;flex:2;min-width:160px}
+.pamt{font-size:17px;font-weight:700;color:#0F6E56;min-width:65px;text-align:right}
+.pact{display:flex;gap:6px}
+.dz{border:2px dashed rgba(0,0,0,.18);border-radius:12px;padding:32px;text-align:center;cursor:pointer;transition:.15s}
+.dz:hover{border-color:#1D9E75;background:#f0fbf7}
+.nb{margin-left:auto;background:#E1F5EE;color:#0F6E56;font-size:11px;padding:1px 7px;border-radius:10px;font-weight:700}
+.dr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.08);align-items:center}
+.dr:last-child{border:none}
 </style>
 </head>
 <body>
 <div class="layout">
-  <div class="sidebar">
-    <div class="logo"><div class="logo-title">CleanBooks</div><div class="logo-sub">Agency Manager</div></div>
-    <nav class="nav">
-      <div class="ni active" data-page="dashboard">
-        <svg viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="5.5" height="5.5" rx="1" fill="currentColor"/><rect x="8.5" y="1" width="5.5" height="5.5" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="8.5" width="5.5" height="5.5" rx="1" fill="currentColor" opacity=".5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1" fill="currentColor"/></svg>
-        Dashboard
-      </div>
-      <div class="ni" data-page="clients">
-        <svg viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 13c0-3.038 2.462-5 5.5-5s5.5 1.962 5.5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Clients <span class="nbadge" id="sc">0</span>
-      </div>
-      <div class="ni" data-page="pickup">
-        <svg viewBox="0 0 15 15" fill="none"><rect x="1.5" y="3.5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 3.5V2.5a2.5 2.5 0 0 1 5 0v1" stroke="currentColor" stroke-width="1.3"/><path d="M5 7.5h5M7.5 5.5v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Weekly pickup
-      </div>
-      <div class="ni" data-page="history">
-        <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5a6 6 0 1 1 0 12 6 6 0 0 1 0-12z" stroke="currentColor" stroke-width="1.3"/><path d="M7.5 4.5v3.25l2.25 2.25" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        History
-      </div>
-      <div class="ni" data-page="import">
-        <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5v8M4.5 7l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10.5v2a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Import
-      </div>
-    </nav>
+<div class="sidebar">
+  <div class="logo"><h1>CleanBooks</h1><p>Agency Manager</p></div>
+  <nav class="nav">
+    <a class="active" data-p="dashboard">📊 Dashboard</a>
+    <a data-p="clients">👥 Clients <span class="nb" id="sc">0</span></a>
+    <a data-p="pickup">💰 Weekly pickup</a>
+    <a data-p="history">📋 History</a>
+    <a data-p="import">⬆ Import</a>
+  </nav>
+</div>
+<div class="main">
+
+<div class="page active" id="page-dashboard">
+  <div class="ph"><h2>Dashboard</h2><span id="dw" style="font-size:12px;color:#888"></span></div>
+  <div class="metrics" id="dm"></div>
+  <div class="twocol">
+    <div class="card"><h3>Overdue (≥ threshold)</h3><div id="dov"></div></div>
+    <div class="card"><h3>Building up</h3><div id="dbl"></div></div>
   </div>
+</div>
 
-  <div class="main">
-    <div class="page active" id="page-dashboard">
-      <div class="ph"><div class="pt">Dashboard</div><div id="dw" style="font-size:12px;color:var(--muted)"></div></div>
-      <div class="metrics" id="dm"></div>
-      <div class="twocol">
-        <div class="card"><div class="ctitle">Overdue (≥ threshold)</div><div id="do"></div></div>
-        <div class="card"><div class="ctitle">Building up (below threshold)</div><div id="db"></div></div>
-      </div>
-    </div>
-
-    <div class="page" id="page-clients">
-      <div class="ph">
-        <div class="pt">Clients</div>
-        <div class="bg"><input class="search" placeholder="Search families..." id="csrch" oninput="rC()"><button class="btn btnp" onclick="oCM()">+ Add client</button></div>
-      </div>
-      <div class="card" style="padding:0;overflow:hidden"><div class="tw"><table>
-        <thead><tr><th>Family</th><th>Phone</th><th>Rate</th><th>Method</th><th>Freq</th><th>Balance</th><th>Last paid</th><th>Wks</th><th></th></tr></thead>
-        <tbody id="cb"></tbody>
-      </table></div></div>
-    </div>
-
-    <div class="page" id="page-pickup">
-      <div class="ph">
-        <div class="pt">Weekly pickup</div>
-        <div class="bg"><button class="btn" onclick="window.print()">🖨 Print</button><button class="btn btnp" onclick="runPickup()">▶ Run pickup</button></div>
-      </div>
-      <div class="card" id="pu-config">
-        <div class="fr2">
-          <div class="fg"><label>Current parsha</label><input id="pup" value="Tazria-Metzora"></div>
-          <div class="fg"><label>Minimum collection ($)</label><input id="pum" type="number" value="200"></div>
-        </div>
-      </div>
-      <div id="pur"></div>
-    </div>
-
-    <div class="page" id="page-history">
-      <div class="ph"><div class="pt">Payment history</div><div id="ht" style="font-size:13px;color:var(--muted)"></div></div>
-      <div class="card" style="padding:0;overflow:hidden"><div class="tw"><table>
-        <thead><tr><th>Date</th><th>Family</th><th>Amount</th><th>Method</th><th>Parsha</th><th>Weeks</th><th>Note</th></tr></thead>
-        <tbody id="hb"></tbody>
-      </table></div></div>
-    </div>
-
-    <div class="page" id="page-import">
-      <div class="ph"><div class="pt">Import clients</div></div>
-      <div class="alert ai">Upload a <strong>CSV file</strong> with columns in this order: Family Name, Address, Phone, Notes, Rate Type, Hours Per Week, Rate Per Hour, Flat Amount, Old Balance, Credit, Last Paid Parsha, Weeks Owed, Payment Method, Collection Frequency.<br><br>To use the Excel template: open it in Excel → File → Save As → CSV. Then upload here.</div>
-      <div class="card">
-        <div class="dz" id="dz" onclick="document.getElementById('fi').click()">
-          <div style="font-size:40px;color:var(--green2)">↑</div>
-          <div style="font-weight:600;margin-top:10px;font-size:15px">Click to upload CSV</div>
-          <p style="font-size:13px;color:var(--muted);margin-top:6px">Drag & drop also works · up to 1000 rows</p>
-          <input type="file" id="fi" accept=".csv,.txt" style="display:none" onchange="handleCSV(this)">
-        </div>
-        <div id="ip" style="display:none;margin-top:16px">
-          <div style="font-size:13px;margin-bottom:6px;font-weight:500" id="is">Processing...</div>
-          <div class="pb"><div class="pf" id="ib" style="width:0%"></div></div>
-        </div>
-        <div id="iprev" style="margin-top:16px"></div>
-      </div>
-      <div class="card">
-        <div class="ctitle">Paste from spreadsheet</div>
-        <div class="fg"><label>Copy rows from Excel and paste here (tab-separated)</label>
-          <textarea id="pa" rows="5" placeholder="Goldstein&#9;45 Oak Ave&#9;718-555-0101&#9;&#9;hourly&#9;12&#9;2&#9;&#9;0&#9;0&#9;Shemini&#9;3&#9;cc-call&#9;weekly"></textarea>
-        </div>
-        <button class="btn btnp" onclick="doPaste()">Import pasted rows</button>
-      </div>
+<div class="page" id="page-clients">
+  <div class="ph"><h2>Clients</h2>
+    <div class="btnrow">
+      <input style="width:220px" placeholder="Search..." id="srch" oninput="renderClients()">
+      <button class="btn primary" onclick="openClient()">+ Add client</button>
     </div>
   </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Family</th><th>Phone</th><th>Rate</th><th>Method</th><th>Freq</th><th>Balance</th><th>Last paid</th><th>Wks</th><th></th></tr></thead>
+      <tbody id="ctb"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="page" id="page-pickup">
+  <div class="ph"><h2>Weekly pickup</h2>
+    <div class="btnrow">
+      <button class="btn" onclick="window.print()">🖨 Print</button>
+      <button class="btn primary" onclick="runPickup()">▶ Run pickup</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="grid2">
+      <div class="fg"><label class="lbl">Current parsha</label><input id="ppar" value="Tazria-Metzora"></div>
+      <div class="fg"><label class="lbl">Minimum ($)</label><input id="pmin" type="number" value="200"></div>
+    </div>
+  </div>
+  <div id="pres"></div>
+</div>
+
+<div class="page" id="page-history">
+  <div class="ph"><h2>Payment history</h2><span id="htot" style="font-size:13px;color:#888"></span></div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Date</th><th>Family</th><th>Amount</th><th>Method</th><th>Parsha</th><th>Weeks</th><th>Note</th></tr></thead>
+      <tbody id="htb"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="page" id="page-import">
+  <div class="ph"><h2>Import clients</h2></div>
+  <div class="alert info">Upload a <b>CSV file</b>. Columns: Family Name, Address, Phone, Notes, Rate Type, Hours/Wk, Rate/Hr, Flat Amount, Old Balance, Credit, Last Paid Parsha, Weeks Owed, Payment Method, Frequency. To export from Excel: File → Save As → CSV.</div>
+  <div class="card">
+    <div class="dz" onclick="document.getElementById('fi').click()">
+      <div style="font-size:36px;color:#1D9E75">↑</div>
+      <div style="font-weight:600;font-size:15px;margin-top:8px">Click to upload CSV</div>
+      <p style="color:#888;margin-top:4px;font-size:13px">Drag & drop also works</p>
+      <input type="file" id="fi" accept=".csv,.txt" style="display:none" onchange="handleCSV(this)">
+    </div>
+    <div id="istat" style="display:none;margin-top:14px;font-size:13px;font-weight:500"></div>
+    <div id="iprev" style="margin-top:14px"></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:12px">Paste from spreadsheet</h3>
+    <div class="fg"><label class="lbl">Paste tab-separated rows from Excel</label>
+      <textarea id="ptxt" rows="4" placeholder="Goldstein&#9;45 Oak Ave&#9;718-555-0101&#9;&#9;hourly&#9;12&#9;2&#9;&#9;0&#9;0&#9;Shemini&#9;3&#9;cc-call&#9;weekly"></textarea>
+    </div>
+    <button class="btn primary" onclick="doPaste()">Import pasted rows</button>
+  </div>
+</div>
+
+</div>
 </div>
 
 <!-- CLIENT MODAL -->
-<div class="overlay" id="cm">
-  <div class="modal">
-    <div class="mhdr"><div class="mtitle" id="cmt">Add client</div><button class="mclose" onclick="closeM('cm')">×</button></div>
-    <div class="tabs" id="cmtabs">
-      <div class="tab active" onclick="cTab('ci',this)">Info</div>
-      <div class="tab" onclick="cTab('cb2',this)">Billing</div>
-      <div class="tab" onclick="cTab('cp',this)">Payment</div>
+<div class="overlay" id="cmod">
+<div class="modal">
+  <div class="mhead"><h3 id="cmtit">Add client</h3><button class="mclose" onclick="closeModal('cmod')">×</button></div>
+  <div class="tabs"><div class="tab active" onclick="ctab('t1',this)">Info</div><div class="tab" onclick="ctab('t2',this)">Billing</div><div class="tab" onclick="ctab('t3',this)">Payment</div></div>
+  <div class="tp active" id="t1">
+    <div class="fg"><label class="lbl">Family name *</label><input id="f_name"></div>
+    <div class="fg"><label class="lbl">Address</label><input id="f_addr"></div>
+    <div class="fg"><label class="lbl">Phone</label><input id="f_phone"></div>
+    <div class="fg"><label class="lbl">Notes</label><textarea id="f_notes" rows="2"></textarea></div>
+  </div>
+  <div class="tp" id="t2">
+    <div class="fg"><label class="lbl">Rate type</label>
+      <select id="f_rt" onchange="togRate()">
+        <option value="hourly">Hourly ($/hr)</option>
+        <option value="flat-weekly">Flat — weekly</option>
+        <option value="flat-monthly">Flat — monthly</option>
+      </select>
     </div>
-    <div class="tp active" id="ci">
-      <div class="fg"><label>Family name *</label><input id="fn"></div>
-      <div class="fg"><label>Address</label><input id="fa"></div>
-      <div class="fg"><label>Phone</label><input id="fph"></div>
-      <div class="fg"><label>Notes</label><textarea id="fno" rows="2" style="resize:vertical"></textarea></div>
+    <div id="rh" class="grid2">
+      <div class="fg"><label class="lbl">Hours/week</label><input id="f_hrs" type="number" value="10"></div>
+      <div class="fg"><label class="lbl">Rate/hour ($)</label><input id="f_rph" type="number" value="2"></div>
     </div>
-    <div class="tp" id="cb2">
-      <div class="fg"><label>Rate type</label>
-        <select id="frt" onchange="togRT()">
-          <option value="hourly">Hourly ($/hr)</option>
-          <option value="flat-weekly">Flat rate — weekly</option>
-          <option value="flat-monthly">Flat rate — monthly</option>
-        </select>
-      </div>
-      <div id="rh" class="fr2">
-        <div class="fg"><label>Hours per week</label><input id="fh" type="number" value="10"></div>
-        <div class="fg"><label>Rate per hour ($)</label><input id="fr" type="number" value="2"></div>
-      </div>
-      <div id="rf2" style="display:none" class="fg"><label>Flat amount ($)</label><input id="ff" type="number" value="0"></div>
-      <div class="fr2">
-        <div class="fg"><label>Old balance owed ($)</label><input id="fob" type="number" value="0"></div>
-        <div class="fg"><label>Credit (overpaid) ($)</label><input id="fcr" type="number" value="0"></div>
-      </div>
-      <div class="fr2">
-        <div class="fg"><label>Last paid parsha</label><input id="flp"></div>
-        <div class="fg"><label>Weeks currently owed</label><input id="fwo" type="number" value="0"></div>
-      </div>
+    <div id="rf" style="display:none" class="fg"><label class="lbl">Flat amount ($)</label><input id="f_flat" type="number" value="0"></div>
+    <div class="grid2">
+      <div class="fg"><label class="lbl">Old balance ($)</label><input id="f_ob" type="number" value="0"></div>
+      <div class="fg"><label class="lbl">Credit ($)</label><input id="f_cr" type="number" value="0"></div>
     </div>
-    <div class="tp" id="cp">
-      <div class="fg"><label>Payment method</label>
-        <select id="fm">
-          <option value="cc-call">Credit card — call before charging</option>
-          <option value="cc-auto">Credit card — charge automatically</option>
-          <option value="zelle-remind">Zelle — send reminder</option>
-          <option value="zelle-auto">Zelle — sends automatically</option>
-          <option value="cash">Cash</option>
-          <option value="check">Check</option>
-        </select>
-      </div>
-      <div class="fg"><label>Collection frequency</label>
-        <select id="fq">
-          <option value="weekly">Every week</option>
-          <option value="biweekly">Every 2 weeks</option>
-          <option value="monthly">Monthly</option>
-        </select>
-      </div>
-    </div>
-    <div class="mfooter">
-      <button class="btn" onclick="closeM('cm')">Cancel</button>
-      <button class="btn btnp" onclick="saveC()">Save client</button>
+    <div class="grid2">
+      <div class="fg"><label class="lbl">Last paid parsha</label><input id="f_lp"></div>
+      <div class="fg"><label class="lbl">Weeks owed</label><input id="f_wo" type="number" value="0"></div>
     </div>
   </div>
+  <div class="tp" id="t3">
+    <div class="fg"><label class="lbl">Payment method</label>
+      <select id="f_meth">
+        <option value="cc-call">Credit card — call before charging</option>
+        <option value="cc-auto">Credit card — charge automatically</option>
+        <option value="zelle-remind">Zelle — send reminder</option>
+        <option value="zelle-auto">Zelle — sends automatically</option>
+        <option value="cash">Cash</option>
+        <option value="check">Check</option>
+      </select>
+    </div>
+    <div class="fg"><label class="lbl">Collection frequency</label>
+      <select id="f_freq">
+        <option value="weekly">Every week</option>
+        <option value="biweekly">Every 2 weeks</option>
+        <option value="monthly">Monthly</option>
+      </select>
+    </div>
+  </div>
+  <div class="mfoot">
+    <button class="btn" onclick="closeModal('cmod')">Cancel</button>
+    <button class="btn primary" onclick="saveClient()">Save</button>
+  </div>
+</div>
 </div>
 
 <!-- PAY MODAL -->
-<div class="overlay" id="pm">
-  <div class="modal" style="width:460px">
-    <div class="mhdr"><div class="mtitle">Record payment</div><button class="mclose" onclick="closeM('pm')">×</button></div>
-    <div id="pmb"></div>
-    <div class="mfooter">
-      <button class="btn" onclick="closeM('pm')">Cancel</button>
-      <button class="btn btnp" onclick="confPay()">Mark paid</button>
-    </div>
+<div class="overlay" id="pmod">
+<div class="modal" style="width:460px">
+  <div class="mhead"><h3>Record payment</h3><button class="mclose" onclick="closeModal('pmod')">×</button></div>
+  <div id="pmb"></div>
+  <div class="mfoot">
+    <button class="btn" onclick="closeModal('pmod')">Cancel</button>
+    <button class="btn primary" onclick="confirmPay()">Mark paid</button>
   </div>
+</div>
 </div>
 
 <!-- CONFIRM MODAL -->
-<div class="overlay" id="conf">
-  <div class="modal" style="width:380px">
-    <div class="mhdr"><div class="mtitle" id="conft">Confirm</div><button class="mclose" onclick="closeM('conf')">×</button></div>
-    <p id="confm" style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6"></p>
-    <div class="mfooter">
-      <button class="btn" onclick="closeM('conf')">Cancel</button>
-      <button class="btn btnd" id="confok">Delete</button>
-    </div>
+<div class="overlay" id="confmod">
+<div class="modal" style="width:360px">
+  <div class="mhead"><h3 id="conft">Confirm</h3><button class="mclose" onclick="closeModal('confmod')">×</button></div>
+  <p id="confmsg" style="font-size:13px;color:#888;margin-bottom:16px;line-height:1.6"></p>
+  <div class="mfoot">
+    <button class="btn" onclick="closeModal('confmod')">Cancel</button>
+    <button class="btn danger" id="confok">Delete</button>
   </div>
+</div>
 </div>
 
 <script>
-const ML={'cc-call':'CC (call first)','cc-auto':'CC (auto)','zelle-remind':'Zelle (remind)','zelle-auto':'Zelle (auto)',cash:'Cash',check:'Check'};
+const ML={'cc-call':'CC (call)','cc-auto':'CC (auto)','zelle-remind':'Zelle (remind)','zelle-auto':'Zelle (auto)',cash:'Cash',check:'Check'};
 const FL={weekly:'Weekly',biweekly:'Bi-weekly',monthly:'Monthly'};
-const MB={'cc-call':'bb','cc-auto':'bb','zelle-remind':'bp','zelle-auto':'bp',cash:'bg2',check:'bg2'};
-const PS=["Bereishis","Noach","Lech Lecha","Vayeira","Chayei Sara","Toldos","Vayeitzei","Vayishlach","Vayeishev","Mikeitz","Vayigash","Vayechi","Shemos","Va'eira","Bo","Beshalach","Yisro","Mishpatim","Terumah","Tetzaveh","Ki Sisa","Vayakhel-Pekudei","Vayikra","Tzav","Shemini","Tazria-Metzora","Acharei-Kedoshim","Emor","Behar-Bechukosai","Bamidbar","Nasso","Beha'aloscha","Shelach","Korach","Chukas","Balak","Pinchas","Matos-Masei","Devarim","Va'eschanan","Eikev","Re'eh","Shoftim","Ki Seitzei","Ki Savo","Nitzavim-Vayeilech","Ha'azinu","Vezos HaBerachah"];
-const LN=["Goldstein","Friedman","Klein","Weiss","Schwartz","Rosenberg","Feldman","Katz","Shapiro","Levine","Cohen","Stern","Glick","Teitelbaum","Horowitz","Markowitz","Bernstein","Silverstein","Greenfeld","Wexler","Blum","Hirsch","Rosen","Moskowitz","Ginsberg","Feinstein","Rabinowitz","Leibowitz","Mandel","Kupfer","Gruen","Tannenbaum","Schreiber","Landau","Frankel","Strauss","Birnbaum","Kramer","Adler","Epstein","Margolis","Weil","Neufeld","Baumgarten","Perlmutter","Hertzberg","Gottlieb","Eisenberg","Rosenblatt","Wolfson","Kohn","Fischer","Brandwein","Heller","Sternberg","Zuckerman","Applebaum","Dreyfus","Hamburger","Morgenstern","Bloch","Rothschild","Schiff","Warburg","Lowenstein","Nussbaum","Heimlich","Bergman","Silber","Grossman","Oppenheimer","Lipschitz","Kessler","Wachsman","Grunwald","Berger","Feuerstein","Steinberg","Klausberg","Deutsch","Wieder","Engel","Fried","Rubin","Mayer","Neiman","Lefkowitz","Pollack","Klar","Weingarten","Jakobovits","Halberstam","Twersky","Belsky","Reichman","Lerner","Mintz","Feder","Gross"];
-const ST=["Oak Ave","Elm St","Maple Rd","Pine Blvd","Cedar Ln","Birch Ct","Walnut Dr","Cherry St","Spruce Ave","Ash Pl"];
-const HO=["Brooklyn","Flatbush","Boro Park","Crown Heights","Williamsburg","Monsey","Lakewood","Far Rockaway"];
-const MT=["cc-call","cc-call","cc-call","cc-auto","cc-auto","zelle-remind","zelle-remind","zelle-auto","cash","check"];
-const FQ=["weekly","weekly","weekly","biweekly","biweekly","monthly"];
-const RT=["hourly","hourly","hourly","hourly","flat-weekly","flat-monthly"];
+const MB={'cc-call':'blue','cc-auto':'blue','zelle-remind':'purple','zelle-auto':'purple',cash:'gray',check:'gray'};
+const PARSHAS=["Bereishis","Noach","Lech Lecha","Vayeira","Chayei Sara","Toldos","Vayeitzei","Vayishlach","Vayeishev","Mikeitz","Vayigash","Vayechi","Shemos","Va'eira","Bo","Beshalach","Yisro","Mishpatim","Terumah","Tetzaveh","Ki Sisa","Vayakhel-Pekudei","Vayikra","Tzav","Shemini","Tazria-Metzora","Acharei-Kedoshim","Emor","Behar-Bechukosai","Bamidbar","Nasso","Beha'aloscha","Shelach","Korach","Chukas","Balak","Pinchas","Matos-Masei","Devarim","Va'eschanan","Eikev","Re'eh","Shoftim","Ki Seitzei","Ki Savo","Nitzavim-Vayeilech","Ha'azinu","Vezos HaBerachah"];
+const LNAMES=["Goldstein","Friedman","Klein","Weiss","Schwartz","Rosenberg","Feldman","Katz","Shapiro","Levine","Cohen","Stern","Glick","Teitelbaum","Horowitz","Markowitz","Bernstein","Silverstein","Greenfeld","Wexler","Blum","Hirsch","Rosen","Moskowitz","Ginsberg","Feinstein","Rabinowitz","Leibowitz","Mandel","Kupfer","Gruen","Tannenbaum","Schreiber","Landau","Frankel","Strauss","Birnbaum","Kramer","Adler","Epstein","Margolis","Weil","Neufeld","Baumgarten","Perlmutter","Hertzberg","Gottlieb","Eisenberg","Rosenblatt","Wolfson","Kohn","Fischer","Brandwein","Heller","Sternberg","Zuckerman","Applebaum","Dreyfus","Hamburger","Morgenstern","Bloch","Rothschild","Schiff","Warburg","Lowenstein","Nussbaum","Heimlich","Bergman","Silber","Grossman","Oppenheimer","Lipschitz","Kessler","Wachsman","Grunwald","Berger","Feuerstein","Steinberg","Klausberg","Deutsch","Wieder","Engel","Fried","Rubin","Mayer","Neiman","Lefkowitz","Pollack","Klar","Weingarten","Jakobovits","Halberstam","Twersky","Belsky","Reichman","Lerner","Mintz","Feder","Gross"];
+const STREETS=["Oak Ave","Elm St","Maple Rd","Pine Blvd","Cedar Ln","Birch Ct","Walnut Dr","Cherry St","Spruce Ave","Ash Pl"];
+const HOODS=["Brooklyn","Flatbush","Boro Park","Crown Heights","Williamsburg","Monsey","Lakewood","Far Rockaway"];
+
 function rnd(a){return a[Math.floor(Math.random()*a.length)];}
 function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function gen(){
+
+function generateFamilies(){
   const out=[];const used=new Set();
+  const rts=["hourly","hourly","hourly","hourly","flat-weekly","flat-monthly"];
+  const mts=["cc-call","cc-call","cc-call","cc-auto","cc-auto","zelle-remind","zelle-remind","zelle-auto","cash","check"];
+  const fqs=["weekly","weekly","weekly","biweekly","biweekly","monthly"];
   for(let i=0;i<100;i++){
-    let n;do{n=rnd(LN);}while(used.has(n));used.add(n);
-    const rt=rnd(RT);
-    out.push({id:i+1,name:n,address:`${ri(1,999)} ${rnd(ST)}, ${rnd(HO)}`,phone:`${rnd(["718","917","347","516","732"])}-${ri(100,999)}-${ri(1000,9999)}`,notes:'',rateType:rt,hoursPerWeek:rt==='hourly'?ri(4,20):0,ratePerHour:2,flatAmount:rt==='flat-weekly'?rnd([50,60,70,80,90,100]):rt==='flat-monthly'?rnd([200,220,250,280,300,320,350]):0,oldBalance:Math.random()<.15?ri(50,300):0,credit:Math.random()<.1?ri(20,100):0,lastPaidParsha:rnd(PS),weeksOwed:ri(0,8),payMethod:rnd(MT),payFreq:rnd(FQ)});
+    let n;do{n=rnd(LNAMES);}while(used.has(n));used.add(n);
+    const rt=rnd(rts);
+    out.push({
+      id:i+1,name:n,
+      address:ri(1,999)+' '+rnd(STREETS)+', '+rnd(HOODS),
+      phone:rnd(["718","917","347","516","732"])+'-'+ri(100,999)+'-'+ri(1000,9999),
+      notes:'',rateType:rt,
+      hoursPerWeek:rt==='hourly'?ri(4,20):0,
+      ratePerHour:2,
+      flatAmount:rt==='flat-weekly'?rnd([50,60,70,80,90,100]):rt==='flat-monthly'?rnd([200,220,250,280,300,320,350]):0,
+      oldBalance:Math.random()<.15?ri(50,300):0,
+      credit:Math.random()<.1?ri(20,100):0,
+      lastPaidParsha:rnd(PARSHAS),
+      weeksOwed:ri(0,8),
+      payMethod:rnd(mts),
+      payFreq:rnd(fqs)
+    });
   }
   return out;
 }
 
-let clients=[],history=[],nid=101,eid=null,pid=null;
+let clients=[],history=[],nextId=101,editId=null,payId=null;
 
-function save(){try{localStorage.setItem('cb_c',JSON.stringify(clients));localStorage.setItem('cb_h',JSON.stringify(history));}catch(e){}}
-function load(){
+function persist(){
+  try{localStorage.setItem('cb_clients',JSON.stringify(clients));localStorage.setItem('cb_history',JSON.stringify(history));}catch(e){}
+}
+function init(){
   try{
-    const c=localStorage.getItem('cb_c'),h=localStorage.getItem('cb_h');
-    clients=c?JSON.parse(c):gen();
+    const c=localStorage.getItem('cb_clients');
+    const h=localStorage.getItem('cb_history');
+    clients=c?JSON.parse(c):generateFamilies();
     history=h?JSON.parse(h):[];
-    nid=clients.reduce((m,x)=>Math.max(m,x.id),100)+1;
-  }catch(e){clients=gen();history=[];}
+    nextId=clients.reduce((m,x)=>Math.max(m,x.id),100)+1;
+  }catch(e){clients=generateFamilies();history=[];}
   renderAll();
 }
 
-function cw(c){
+function weekly(c){
   if(c.rateType==='hourly')return(c.hoursPerWeek||0)*(c.ratePerHour||2);
   if(c.rateType==='flat-weekly')return c.flatAmount||0;
   if(c.rateType==='flat-monthly')return(c.flatAmount||0)/4.33;
   return 0;
 }
-function co(c){return Math.max(0,cw(c)*(c.weeksOwed||0)+(c.oldBalance||0)-(c.credit||0));}
-function renderAll(){rD();rC();rH();document.getElementById('sc').textContent=clients.length;}
+function owed(c){return Math.max(0,weekly(c)*(c.weeksOwed||0)+(c.oldBalance||0)-(c.credit||0));}
+function renderAll(){renderDash();renderClients();renderHistory();document.getElementById('sc').textContent=clients.length;}
 
-function rD(){
-  const par=document.getElementById('pup')?.value||'Tazria-Metzora';
-  const min=parseFloat(document.getElementById('pum')?.value||200);
-  const tot=clients.reduce((s,c)=>s+co(c),0);
-  const ready=clients.filter(c=>co(c)>=min);
-  const p30=history.filter(h=>{try{return(Date.now()-new Date(h.date))<30*864e5;}catch{return false;}});
+function renderDash(){
+  const par=document.getElementById('ppar')?.value||'Tazria-Metzora';
+  const min=parseFloat(document.getElementById('pmin')?.value||200);
+  const tot=clients.reduce((s,c)=>s+owed(c),0);
+  const ready=clients.filter(c=>owed(c)>=min);
+  const p30=history.filter(h=>{try{return Date.now()-new Date(h.date)<30*864e5;}catch{return false;}});
   const c30=p30.reduce((s,h)=>s+h.amount,0);
   document.getElementById('dw').textContent='Parshas '+par;
-  document.getElementById('dm').innerHTML=`
-    <div class="metric m1"><div class="mbg">$</div><div class="mlabel">Total outstanding</div><div class="mval">$${tot.toFixed(0)}</div><div class="msub">${clients.filter(c=>co(c)>0).length} families with balance</div></div>
-    <div class="metric m2"><div class="mbg">↗</div><div class="mlabel">Ready to collect</div><div class="mval">${ready.length}</div><div class="msub">families ≥ $${min}</div></div>
-    <div class="metric m3"><div class="mbg">◎</div><div class="mlabel">Total clients</div><div class="mval">${clients.length}</div><div class="msub">${clients.filter(c=>c.credit>0).length} have credits</div></div>
-    <div class="metric m4"><div class="mbg">✓</div><div class="mlabel">Collected (30 days)</div><div class="mval">$${c30.toFixed(0)}</div><div class="msub">${p30.length} payments</div></div>`;
-  const ov=clients.filter(c=>co(c)>=min).sort((a,b)=>co(b)-co(a)).slice(0,12);
-  document.getElementById('do').innerHTML=ov.length?ov.map(c=>`<div class="dr"><div><div style="font-weight:600;font-size:13px">${c.name}</div><div style="font-size:11px;color:var(--muted)">${c.weeksOwed||0}w · ${ML[c.payMethod]||c.payMethod}</div></div><div style="font-weight:700;color:#A32D2D">$${co(c).toFixed(0)}</div></div>`).join(''):'<div class="empty" style="padding:20px"><p>No overdue balances</p></div>';
-  const bl=clients.filter(c=>co(c)>0&&co(c)<min).sort((a,b)=>co(b)-co(a)).slice(0,12);
-  document.getElementById('db').innerHTML=bl.length?bl.map(c=>`<div class="dr"><div><div style="font-weight:600;font-size:13px">${c.name}</div><div style="font-size:11px;color:var(--muted)">${c.weeksOwed||0}w building</div></div><div style="color:var(--muted)">$${co(c).toFixed(0)}</div></div>`).join(''):'<div class="empty" style="padding:20px"><p>None below threshold</p></div>';
+  document.getElementById('dm').innerHTML=
+    '<div class="metric g"><div class="icon">$</div><label>Total outstanding</label><div class="val">$'+tot.toFixed(0)+'</div><div class="sub">'+clients.filter(c=>owed(c)>0).length+' families</div></div>'+
+    '<div class="metric b"><div class="icon">↗</div><label>Ready to collect</label><div class="val">'+ready.length+'</div><div class="sub">≥ $'+min+'</div></div>'+
+    '<div class="metric p"><div class="icon">◎</div><label>Total clients</label><div class="val">'+clients.length+'</div><div class="sub">'+clients.filter(c=>c.credit>0).length+' with credits</div></div>'+
+    '<div class="metric a"><div class="icon">✓</div><label>Collected (30d)</label><div class="val">$'+c30.toFixed(0)+'</div><div class="sub">'+p30.length+' payments</div></div>';
+  const ov=clients.filter(c=>owed(c)>=min).sort((a,b)=>owed(b)-owed(a)).slice(0,10);
+  document.getElementById('dov').innerHTML=ov.length?ov.map(c=>'<div class="dr"><div><b style="font-size:13px">'+c.name+'</b><div style="font-size:11px;color:#888">'+( c.weeksOwed||0)+'w · '+(ML[c.payMethod]||c.payMethod)+'</div></div><b style="color:#A32D2D">$'+owed(c).toFixed(0)+'</b></div>').join(''):'<p style="padding:16px;color:#888;text-align:center">None</p>';
+  const bl=clients.filter(c=>owed(c)>0&&owed(c)<min).sort((a,b)=>owed(b)-owed(a)).slice(0,10);
+  document.getElementById('dbl').innerHTML=bl.length?bl.map(c=>'<div class="dr"><div><b style="font-size:13px">'+c.name+'</b><div style="font-size:11px;color:#888">'+(c.weeksOwed||0)+'w building</div></div><span style="color:#888">$'+owed(c).toFixed(0)+'</span></div>').join(''):'<p style="padding:16px;color:#888;text-align:center">None</p>';
 }
 
-function rC(){
-  const q=(document.getElementById('csrch')?.value||'').toLowerCase();
+function renderClients(){
+  const q=(document.getElementById('srch')?.value||'').toLowerCase();
   const list=clients.filter(c=>!q||c.name.toLowerCase().includes(q)||(c.address||'').toLowerCase().includes(q)||(c.phone||'').includes(q));
-  const tb=document.getElementById('cb');if(!tb) return;
-  if(!list.length){tb.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:36px;color:var(--muted)">${clients.length?'No results':'No clients yet — add one or use Import'}</td></tr>`;return;}
+  const tb=document.getElementById('ctb');if(!tb)return;
+  if(!list.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:30px;color:#888">'+(clients.length?'No results':'No clients yet — add one or import')+'</td></tr>';return;}
   tb.innerHTML=list.map(c=>{
-    const owed=co(c);
-    const rl=c.rateType==='hourly'?`${c.hoursPerWeek||0}h@$${c.ratePerHour||2}`:c.rateType==='flat-weekly'?`$${c.flatAmount||0}/wk`:`$${c.flatAmount||0}/mo`;
-    return`<tr><td><div style="font-weight:600">${c.name}</div>${c.address?`<div style="font-size:11px;color:var(--muted)">${c.address}</div>`:''}</td><td style="font-size:12px;color:var(--muted)">${c.phone||'—'}</td><td><span class="badge bg2">${rl}</span></td><td><span class="badge ${MB[c.payMethod]||'bg2'}">${ML[c.payMethod]||'—'}</span></td><td><span class="badge bg2">${FL[c.payFreq]||'—'}</span></td><td>${owed>0?`<span style="color:#A32D2D;font-weight:700">$${owed.toFixed(0)}</span>`:''} ${c.credit>0?`<span class="badge bb" style="font-size:10px">cr $${(+c.credit).toFixed(0)}</span>`:''} ${!owed&&!c.credit?'<span style="color:var(--muted)">—</span>':''}</td><td style="font-size:12px;color:var(--muted)">${c.lastPaidParsha||'—'}</td><td style="text-align:center">${c.weeksOwed||0}</td><td><div style="display:flex;gap:4px"><button class="btn btns" onclick="oCM(${c.id})">Edit</button><button class="btn btns btnd" onclick="delC(${c.id})">Del</button></div></td></tr>`;
+    const o=owed(c);
+    const rl=c.rateType==='hourly'?(c.hoursPerWeek||0)+'h@$'+(c.ratePerHour||2):c.rateType==='flat-weekly'?'$'+(c.flatAmount||0)+'/wk':'$'+(c.flatAmount||0)+'/mo';
+    return'<tr><td><b>'+c.name+'</b>'+(c.address?'<div style="font-size:11px;color:#888">'+c.address+'</div>':'')+'</td><td style="font-size:12px;color:#888">'+(c.phone||'—')+'</td><td><span class="badge gray">'+rl+'</span></td><td><span class="badge '+(MB[c.payMethod]||'gray')+'">'+(ML[c.payMethod]||'—')+'</span></td><td><span class="badge gray">'+(FL[c.payFreq]||'—')+'</span></td><td>'+(o>0?'<b style="color:#A32D2D">$'+o.toFixed(0)+'</b>':'')+(c.credit>0?' <span class="badge blue" style="font-size:10px">cr $'+c.credit.toFixed(0)+'</span>':'')+((!o&&!c.credit)?'<span style="color:#888">—</span>':'')+'</td><td style="font-size:12px;color:#888">'+(c.lastPaidParsha||'—')+'</td><td style="text-align:center">'+(c.weeksOwed||0)+'</td><td><div style="display:flex;gap:4px"><button class="btn sm" onclick="openClient('+c.id+')">Edit</button><button class="btn sm danger" onclick="delClient('+c.id+')">Del</button></div></td></tr>';
   }).join('');
   document.getElementById('sc').textContent=clients.length;
 }
 
-function rH(){
-  const tb=document.getElementById('hb');if(!tb) return;
+function renderHistory(){
+  const tb=document.getElementById('htb');if(!tb)return;
   const tot=history.reduce((s,h)=>s+h.amount,0);
-  document.getElementById('ht').textContent=history.length?`${history.length} payments · $${tot.toFixed(0)} total`:'';
-  if(!history.length){tb.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--muted)">No payments recorded yet</td></tr>`;return;}
-  tb.innerHTML=history.map(h=>`<tr><td style="font-size:12px;color:var(--muted)">${h.date}</td><td style="font-weight:600">${h.family}</td><td style="color:#0F6E56;font-weight:700">$${h.amount.toFixed(2)}</td><td><span class="badge ${MB[h.method]||'bg2'}">${ML[h.method]||h.method}</span></td><td style="font-size:12px;color:var(--muted)">${h.parsha||'—'}</td><td style="text-align:center">${h.weeks}</td><td style="font-size:12px;color:var(--muted)">${h.note||'—'}</td></tr>`).join('');
+  document.getElementById('htot').textContent=history.length?history.length+' payments · $'+tot.toFixed(0)+' total':'';
+  if(!history.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:#888">No payments recorded yet</td></tr>';return;}
+  tb.innerHTML=history.map(h=>'<tr><td style="font-size:12px;color:#888">'+h.date+'</td><td><b>'+h.family+'</b></td><td style="color:#0F6E56;font-weight:700">$'+h.amount.toFixed(2)+'</td><td><span class="badge '+(MB[h.method]||'gray')+'">'+(ML[h.method]||h.method)+'</span></td><td style="font-size:12px;color:#888">'+(h.parsha||'—')+'</td><td style="text-align:center">'+h.weeks+'</td><td style="font-size:12px;color:#888">'+(h.note||'—')+'</td></tr>').join('');
 }
 
 function runPickup(){
-  const par=document.getElementById('pup').value.trim()||'This week';
-  const min=parseFloat(document.getElementById('pum').value)||200;
-  const due=clients.map(c=>({...c,owed:co(c)})).filter(c=>c.owed>=min).sort((a,b)=>b.owed-a.owed);
-  const skip=clients.map(c=>({...c,owed:co(c)})).filter(c=>c.owed>0&&c.owed<min);
-  const tot=due.reduce((s,c)=>s+c.owed,0);
-  if(!due.length&&!skip.length){document.getElementById('pur').innerHTML=`<div class="alert ai">No balances found. Add clients or lower the minimum threshold.</div>`;return;}
-  const grps=[{key:'cc-call',label:'Credit card — call before charging',badge:'bb'},{key:'cc-auto',label:'Credit card — charge automatically',badge:'bb'},{key:'zelle-remind',label:'Zelle — send reminder',badge:'bp'},{key:'zelle-auto',label:'Zelle — mark when received',badge:'bp'},{key:'cash',label:'Cash',badge:'bg2'},{key:'check',label:'Check',badge:'bg2'}];
-  let html=`<div class="alert as">Parshas ${par} — <strong>${due.length}</strong> families · <strong>$${tot.toFixed(0)}</strong> to collect</div>`;
+  const par=document.getElementById('ppar').value.trim()||'This week';
+  const min=parseFloat(document.getElementById('pmin').value)||200;
+  const due=clients.map(c=>({...c,ow:owed(c)})).filter(c=>c.ow>=min).sort((a,b)=>b.ow-a.ow);
+  const skip=clients.map(c=>({...c,ow:owed(c)})).filter(c=>c.ow>0&&c.ow<min);
+  const tot=due.reduce((s,c)=>s+c.ow,0);
+  if(!due.length&&!skip.length){document.getElementById('pres').innerHTML='<div class="alert info">No balances found. Lower the minimum or add clients.</div>';return;}
+  const grps=[{k:'cc-call',l:'Credit card — call before charging',b:'blue'},{k:'cc-auto',l:'Credit card — charge automatically',b:'blue'},{k:'zelle-remind',l:'Zelle — send reminder',b:'purple'},{k:'zelle-auto',l:'Zelle — mark when received',b:'purple'},{k:'cash',l:'Cash',b:'gray'},{k:'check',l:'Check',b:'gray'}];
+  let html='<div class="alert success">Parshas '+par+' — <b>'+due.length+'</b> families · <b>$'+tot.toFixed(0)+'</b> to collect</div>';
   grps.forEach(g=>{
-    const rows=due.filter(c=>c.payMethod===g.key);if(!rows.length) return;
-    html+=`<div class="slbl"><span class="badge ${g.badge}">${g.label}</span></div>`;
+    const rows=due.filter(c=>c.payMethod===g.k);if(!rows.length)return;
+    html+='<div class="slbl"><span class="badge '+g.b+'">'+g.l+'</span></div>';
     rows.forEach(c=>{
-      const rd=c.rateType==='hourly'?`${c.hoursPerWeek||0}h×$${c.ratePerHour||2}`:c.rateType==='flat-weekly'?`$${c.flatAmount||0}/wk`:`$${c.flatAmount||0}/mo`;
-      html+=`<div class="prow" id="pr-${c.id}"><div style="flex:1;min-width:180px"><div class="pname">${c.name} <span style="font-size:12px;font-weight:400;color:var(--muted)">${c.phone||''}</span></div><div class="pdetail">${c.weeksOwed||0} wks since ${c.lastPaidParsha||'?'} · ${rd}${c.credit>0?` · <span style="color:#185FA5">–$${(+c.credit).toFixed(0)} credit</span>`:''}${c.oldBalance>0?` · <span style="color:#A32D2D">+$${(+c.oldBalance).toFixed(0)} old bal</span>`:''}</div></div><div class="pamt">$${c.owed.toFixed(0)}</div><div class="pactions"><button class="btn btns btnp" onclick="oPM(${c.id},'${par}')">Mark paid</button><button class="btn btns" onclick="skipR(${c.id})">Skip</button></div></div>`;
+      const rd=c.rateType==='hourly'?(c.hoursPerWeek||0)+'h×$'+(c.ratePerHour||2):c.rateType==='flat-weekly'?'$'+(c.flatAmount||0)+'/wk':'$'+(c.flatAmount||0)+'/mo';
+      html+='<div class="prow" id="pr'+c.id+'"><div class="pname">'+c.name+' <span style="font-size:12px;font-weight:400;color:#888">'+(c.phone||'')+'</span></div><div class="pdetail">'+(c.weeksOwed||0)+' wks since '+(c.lastPaidParsha||'?')+' · '+rd+(c.credit>0?' · <span style="color:#185FA5">–$'+c.credit.toFixed(0)+' credit</span>':'')+(c.oldBalance>0?' · <span style="color:#A32D2D">+$'+c.oldBalance.toFixed(0)+' old bal</span>':'')+'</div><div class="pamt">$'+c.ow.toFixed(0)+'</div><div class="pact"><button class="btn sm primary" onclick="openPay('+c.id+',\''+par+'\')">Mark paid</button><button class="btn sm" onclick="skipRow('+c.id+')">Skip</button></div></div>';
     });
   });
   if(skip.length){
-    html+=`<div class="slbl">Building up — below $${min} (skip this week)</div>`;
-    skip.forEach(c=>{html+=`<div style="display:flex;justify-content:space-between;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;opacity:.65"><span style="font-weight:500">${c.name}</span><span style="color:var(--muted)">$${c.owed.toFixed(0)}</span></div>`;});
+    html+='<div class="slbl">Building up — below $'+min+'</div>';
+    skip.forEach(c=>{html+='<div style="display:flex;justify-content:space-between;padding:8px 12px;border:1px solid rgba(0,0,0,.1);border-radius:8px;margin-bottom:6px;opacity:.65"><span>'+c.name+'</span><span style="color:#888">$'+c.ow.toFixed(0)+'</span></div>';});
   }
-  document.getElementById('pur').innerHTML=html;
+  document.getElementById('pres').innerHTML=html;
 }
 
-function skipR(id){const r=document.getElementById('pr-'+id);if(!r) return;r.classList.add('done');r.querySelector('.pactions').innerHTML='<span class="badge bg2">Skipped</span>';}
+function skipRow(id){const r=document.getElementById('pr'+id);if(!r)return;r.classList.add('done');r.querySelector('.pact').innerHTML='<span class="badge gray">Skipped</span>';}
 
-function oPM(id,par){
-  const c=clients.find(x=>x.id===id);if(!c) return;
-  pid=id;
-  const owed=co(c);
-  document.getElementById('pmb').innerHTML=`<div style="background:#f7f7f5;border-radius:var(--radius);padding:13px 15px;margin-bottom:14px"><div style="font-weight:700;font-size:15px">${c.name}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${c.weeksOwed||0} weeks owed · last paid: ${c.lastPaidParsha||'unknown'}</div></div><div class="fr2"><div class="fg"><label>Amount received ($)</label><input id="pma" type="number" value="${owed.toFixed(2)}" step="0.01"></div><div class="fg"><label>Method used</label><select id="pmm"><option value="cc" ${c.payMethod.startsWith('cc')?'selected':''}>Credit card</option><option value="zelle-remind" ${c.payMethod.startsWith('zelle')?'selected':''}>Zelle</option><option value="cash" ${c.payMethod==='cash'?'selected':''}>Cash</option><option value="check" ${c.payMethod==='check'?'selected':''}>Check</option></select></div></div><div class="fg"><label>Note (optional)</label><input id="pmn" placeholder="e.g. partial, will send rest next week"></div><div class="alert ai" style="font-size:12px">Weeks reset to 0. Last paid parsha → <strong>${par}</strong>. Overpayment becomes credit.</div>`;
-  openM('pm');
+function openPay(id,par){
+  const c=clients.find(x=>x.id===id);if(!c)return;
+  payId=id;
+  const o=owed(c);
+  document.getElementById('pmb').innerHTML=
+    '<div style="background:#f5f5f5;border-radius:8px;padding:12px 14px;margin-bottom:14px"><b style="font-size:15px">'+c.name+'</b><div style="font-size:12px;color:#888;margin-top:2px">'+(c.weeksOwed||0)+' weeks owed · last paid: '+(c.lastPaidParsha||'unknown')+'</div></div>'+
+    '<div class="grid2"><div class="fg"><label class="lbl">Amount received ($)</label><input id="pa" type="number" value="'+o.toFixed(2)+'" step="0.01"></div><div class="fg"><label class="lbl">Method</label><select id="pm2"><option value="cc" '+(c.payMethod.startsWith('cc')?'selected':'')+'>Credit card</option><option value="zelle-remind" '+(c.payMethod.startsWith('zelle')?'selected':'')+'>Zelle</option><option value="cash" '+(c.payMethod==='cash'?'selected':'')+'>Cash</option><option value="check" '+(c.payMethod==='check'?'selected':'')+'>Check</option></select></div></div>'+
+    '<div class="fg"><label class="lbl">Note (optional)</label><input id="pn" placeholder="e.g. partial payment"></div>'+
+    '<div class="alert info" style="font-size:12px">Weeks reset to 0. Parsha → <b>'+par+'</b>. Overpayment → credit.</div>';
+  openModal('pmod');
+  document.getElementById('pmod').dataset.par=par;
 }
 
-function confPay(){
-  const c=clients.find(x=>x.id===pid);if(!c) return;
-  const amt=parseFloat(document.getElementById('pma').value)||0;
-  const mth=document.getElementById('pmm').value;
-  const note=document.getElementById('pmn').value;
-  const par=document.getElementById('pup').value.trim()||'This week';
-  const owed=co(c);const diff=amt-owed;
+function confirmPay(){
+  const c=clients.find(x=>x.id===payId);if(!c)return;
+  const amt=parseFloat(document.getElementById('pa').value)||0;
+  const mth=document.getElementById('pm2').value;
+  const note=document.getElementById('pn').value;
+  const par=document.getElementById('pmod').dataset.par||'This week';
+  const o=owed(c);const diff=amt-o;
   history.unshift({date:new Date().toLocaleDateString(),family:c.name,amount:amt,method:mth,parsha:par,weeks:c.weeksOwed||0,note});
-  const idx=clients.findIndex(x=>x.id===pid);
+  const idx=clients.findIndex(x=>x.id===payId);
   clients[idx]={...c,weeksOwed:0,lastPaidParsha:par,oldBalance:0,credit:diff>0?parseFloat(diff.toFixed(2)):0};
-  save();closeM('pm');
-  const row=document.getElementById('pr-'+pid);
-  if(row){row.classList.add('done');row.querySelector('.pactions').innerHTML=`<span class="badge bt">Paid $${amt.toFixed(0)} ✓</span>`;row.querySelector('.pamt').innerHTML=`<span style="color:#0F6E56">✓ $${amt.toFixed(0)}</span>`;}
+  persist();closeModal('pmod');
+  const row=document.getElementById('pr'+payId);
+  if(row){row.classList.add('done');row.querySelector('.pact').innerHTML='<span class="badge teal">Paid $'+amt.toFixed(0)+' ✓</span>';row.querySelector('.pamt').innerHTML='<span style="color:#0F6E56">✓ $'+amt.toFixed(0)+'</span>';}
   renderAll();
 }
 
-function oCM(id){
-  eid=id||null;
+function openClient(id){
+  editId=id||null;
   const c=id?clients.find(x=>x.id===id):null;
-  document.getElementById('cmt').textContent=c?'Edit — '+c.name:'Add client';
-  document.getElementById('fn').value=c?.name||'';
-  document.getElementById('fa').value=c?.address||'';
-  document.getElementById('fph').value=c?.phone||'';
-  document.getElementById('fno').value=c?.notes||'';
-  document.getElementById('frt').value=c?.rateType||'hourly';
-  document.getElementById('fh').value=c?.hoursPerWeek||10;
-  document.getElementById('fr').value=c?.ratePerHour||2;
-  document.getElementById('ff').value=c?.flatAmount||0;
-  document.getElementById('fob').value=c?.oldBalance||0;
-  document.getElementById('fcr').value=c?.credit||0;
-  document.getElementById('flp').value=c?.lastPaidParsha||'';
-  document.getElementById('fwo').value=c?.weeksOwed||0;
-  document.getElementById('fm').value=c?.payMethod||'cc-call';
-  document.getElementById('fq').value=c?.payFreq||'weekly';
-  togRT();cTab('ci',document.querySelector('#cmtabs .tab'));openM('cm');
+  document.getElementById('cmtit').textContent=c?'Edit — '+c.name:'Add client';
+  document.getElementById('f_name').value=c?.name||'';
+  document.getElementById('f_addr').value=c?.address||'';
+  document.getElementById('f_phone').value=c?.phone||'';
+  document.getElementById('f_notes').value=c?.notes||'';
+  document.getElementById('f_rt').value=c?.rateType||'hourly';
+  document.getElementById('f_hrs').value=c?.hoursPerWeek||10;
+  document.getElementById('f_rph').value=c?.ratePerHour||2;
+  document.getElementById('f_flat').value=c?.flatAmount||0;
+  document.getElementById('f_ob').value=c?.oldBalance||0;
+  document.getElementById('f_cr').value=c?.credit||0;
+  document.getElementById('f_lp').value=c?.lastPaidParsha||'';
+  document.getElementById('f_wo').value=c?.weeksOwed||0;
+  document.getElementById('f_meth').value=c?.payMethod||'cc-call';
+  document.getElementById('f_freq').value=c?.payFreq||'weekly';
+  togRate();ctab('t1',document.querySelector('#cmod .tab'));openModal('cmod');
 }
 
-function saveC(){
-  const name=document.getElementById('fn').value.trim();
-  if(!name){alert('Family name is required');return;}
-  const d={name,address:document.getElementById('fa').value.trim(),phone:document.getElementById('fph').value.trim(),notes:document.getElementById('fno').value.trim(),rateType:document.getElementById('frt').value,hoursPerWeek:parseFloat(document.getElementById('fh').value)||0,ratePerHour:parseFloat(document.getElementById('fr').value)||2,flatAmount:parseFloat(document.getElementById('ff').value)||0,oldBalance:parseFloat(document.getElementById('fob').value)||0,credit:parseFloat(document.getElementById('fcr').value)||0,lastPaidParsha:document.getElementById('flp').value.trim(),weeksOwed:parseInt(document.getElementById('fwo').value)||0,payMethod:document.getElementById('fm').value,payFreq:document.getElementById('fq').value};
-  if(eid){const i=clients.findIndex(x=>x.id===eid);clients[i]={...clients[i],...d};}
-  else clients.push({id:nid++,...d});
-  save();closeM('cm');renderAll();
+function saveClient(){
+  const name=document.getElementById('f_name').value.trim();
+  if(!name){alert('Family name required');return;}
+  const d={name,address:document.getElementById('f_addr').value.trim(),phone:document.getElementById('f_phone').value.trim(),notes:document.getElementById('f_notes').value.trim(),rateType:document.getElementById('f_rt').value,hoursPerWeek:parseFloat(document.getElementById('f_hrs').value)||0,ratePerHour:parseFloat(document.getElementById('f_rph').value)||2,flatAmount:parseFloat(document.getElementById('f_flat').value)||0,oldBalance:parseFloat(document.getElementById('f_ob').value)||0,credit:parseFloat(document.getElementById('f_cr').value)||0,lastPaidParsha:document.getElementById('f_lp').value.trim(),weeksOwed:parseInt(document.getElementById('f_wo').value)||0,payMethod:document.getElementById('f_meth').value,payFreq:document.getElementById('f_freq').value};
+  if(editId){const i=clients.findIndex(x=>x.id===editId);clients[i]={...clients[i],...d};}
+  else clients.push({id:nextId++,...d});
+  persist();closeModal('cmod');renderAll();
 }
 
-function delC(id){
-  const c=clients.find(x=>x.id===id);if(!c) return;
+function delClient(id){
+  const c=clients.find(x=>x.id===id);if(!c)return;
   document.getElementById('conft').textContent='Delete client';
-  document.getElementById('confm').textContent=`Remove ${c.name} permanently? This cannot be undone.`;
-  document.getElementById('confok').onclick=()=>{clients=clients.filter(x=>x.id!==id);save();closeM('conf');renderAll();};
-  openM('conf');
+  document.getElementById('confmsg').textContent='Remove '+c.name+' permanently? This cannot be undone.';
+  document.getElementById('confok').onclick=()=>{clients=clients.filter(x=>x.id!==id);persist();closeModal('confmod');renderAll();};
+  openModal('confmod');
 }
 
-function togRT(){
-  const v=document.getElementById('frt').value;
+function togRate(){
+  const v=document.getElementById('f_rt').value;
   document.getElementById('rh').style.display=v==='hourly'?'':'none';
-  document.getElementById('rf2').style.display=v!=='hourly'?'':'none';
+  document.getElementById('rf').style.display=v!=='hourly'?'':'none';
 }
-function cTab(n,el){
-  document.querySelectorAll('#cmtabs .tab').forEach(t=>t.classList.remove('active'));
+function ctab(n,el){
+  document.querySelectorAll('#cmod .tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
-  if(el) el.classList.add('active');
+  if(el)el.classList.add('active');
   document.getElementById(n).classList.add('active');
 }
-function openM(id){document.getElementById(id).classList.add('open');}
-function closeM(id){document.getElementById(id).classList.remove('open');}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 function parseRow(cols){
-  const cl=v=>(v===undefined||v===null||v==='')?'':String(v).trim();
+  const cl=v=>(v==null||v==='')?'':String(v).trim();
   const num=v=>{const n=parseFloat(cl(v));return isNaN(n)?0:n;};
-  const rt=cl(cols[4]).toLowerCase().replace(/\s+/g,'');
+  const rt=cl(cols[4]).toLowerCase().replace(/\s/g,'');
   const normR=rt.includes('monthly')?'flat-monthly':rt.includes('weekly')?'flat-weekly':'hourly';
   const mr=cl(cols[12]).toLowerCase().replace(/[-\s]/g,'');
-  const normM={'cccall':'cc-call','ccauto':'cc-auto','zelleremind':'zelle-remind','zellereminder':'zelle-remind','zelleauto':'zelle-auto',cash:'cash',check:'check'}[mr]||'cc-call';
+  const normM={cccall:'cc-call',ccauto:'cc-auto',zelleremind:'zelle-remind',zellereminder:'zelle-remind',zelleauto:'zelle-auto',cash:'cash',check:'check'}[mr]||'cc-call';
   const fq=cl(cols[13]).toLowerCase();
-  const normF=fq.includes('month')?'monthly':fq.includes('bi')||fq.includes('2')?'biweekly':'weekly';
-  if(!cl(cols[0])) throw new Error('Missing family name');
-  return{id:nid++,name:cl(cols[0]),address:cl(cols[1]),phone:cl(cols[2]),notes:cl(cols[3]),rateType:normR,hoursPerWeek:num(cols[5]),ratePerHour:num(cols[6])||2,flatAmount:num(cols[7]),oldBalance:num(cols[8]),credit:num(cols[9]),lastPaidParsha:cl(cols[10]),weeksOwed:parseInt(cl(cols[11]))||0,payMethod:normM,payFreq:normF};
+  const normF=fq.includes('month')?'monthly':fq.includes('bi')?'biweekly':'weekly';
+  if(!cl(cols[0]))throw new Error('Missing name');
+  return{id:nextId++,name:cl(cols[0]),address:cl(cols[1]),phone:cl(cols[2]),notes:cl(cols[3]),rateType:normR,hoursPerWeek:num(cols[5]),ratePerHour:num(cols[6])||2,flatAmount:num(cols[7]),oldBalance:num(cols[8]),credit:num(cols[9]),lastPaidParsha:cl(cols[10]),weeksOwed:parseInt(cl(cols[11]))||0,payMethod:normM,payFreq:normF};
 }
 
 function parseCSV(text){
   const rows=[];
-  const lines=text.split(/\r?\n/);
-  for(const line of lines){
-    if(!line.trim()) continue;
-    // handle quoted fields
-    const cols=[];let cur='';let inQ=false;
+  for(const line of text.split(/\r?\n/)){
+    if(!line.trim())continue;
+    const cols=[];let cur='';let q=false;
     for(let i=0;i<line.length;i++){
       const ch=line[i];
-      if(ch==='"'){inQ=!inQ;}
-      else if((ch===','||ch==='\t')&&!inQ){cols.push(cur);cur='';}
+      if(ch==='"'){q=!q;}
+      else if((ch===','||ch==='\t')&&!q){cols.push(cur);cur='';}
       else cur+=ch;
     }
-    cols.push(cur);
-    rows.push(cols);
+    cols.push(cur);rows.push(cols);
   }
   return rows;
 }
 
-function handleCSV(input){
-  const file=input.files[0];if(!file) return;
-  document.getElementById('ip').style.display='block';
-  document.getElementById('is').textContent='Reading file...';
-  document.getElementById('ib').style.width='30%';
-  const reader=new FileReader();
-  reader.onload=e=>{
-    document.getElementById('ib').style.width='70%';
-    const rows=parseCSV(e.target.result);
-    processRows(rows);
-  };
-  reader.onerror=()=>{document.getElementById('is').textContent='Error reading file.';};
-  reader.readAsText(file);
-}
-
 function processRows(rows){
   const data=rows.filter((r,i)=>{
-    if(i===0){const n=String(r[0]||'').toLowerCase();return!n.includes('family')&&!n.includes('name')&&n.trim()!=='';}
-    return String(r[0]||'').trim()!=='';
+    if(i===0){const n=String(r[0]||'').toLowerCase();return!n.includes('family')&&!n.includes('name')&&n.trim();}
+    return String(r[0]||'').trim();
   });
-  document.getElementById('ib').style.width='100%';
   const imported=[];const errors=[];
-  data.forEach((r,i)=>{
-    try{imported.push(parseRow(r));}
-    catch(e){errors.push(`Row ${i+2}: ${e.message}`);}
-  });
-  document.getElementById('is').textContent=`Done — ${imported.length} families ready`;
-  let prev=`<div class="alert as">${imported.length} families parsed${errors.length?' · '+errors.length+' skipped':''}</div>`;
-  if(errors.length) prev+=`<div class="alert aw">${errors.slice(0,5).join('<br>')}${errors.length>5?`<br>...and ${errors.length-5} more`:''}`;
-  prev+=`<div class="card" style="padding:0;overflow:hidden;margin-top:12px"><div class="tw"><table><thead><tr><th>Name</th><th>Rate</th><th>Method</th><th>Est. Balance</th></tr></thead><tbody>`;
-  imported.slice(0,8).forEach(c=>{const w=Math.max(0,cw(c)*(c.weeksOwed||0)+(c.oldBalance||0)-(c.credit||0));prev+=`<tr><td style="font-weight:600">${c.name}</td><td>${c.rateType==='hourly'?`${c.hoursPerWeek}h×$${c.ratePerHour}`:c.rateType==='flat-weekly'?`$${c.flatAmount}/wk`:`$${c.flatAmount}/mo`}</td><td><span class="badge ${MB[c.payMethod]||'bg2'}">${ML[c.payMethod]||c.payMethod}</span></td><td style="font-weight:700;color:#A32D2D">$${w.toFixed(0)}</td></tr>`;});
-  if(imported.length>8) prev+=`<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:10px">... and ${imported.length-8} more</td></tr>`;
-  prev+=`</tbody></table></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btnp" onclick="doImport()">✓ Import all ${imported.length} families</button><button class="btn" onclick="document.getElementById('iprev').innerHTML=''">Cancel</button></div>`;
+  data.forEach((r,i)=>{try{imported.push(parseRow(r));}catch(e){errors.push('Row '+(i+2)+': '+e.message);}});
+  document.getElementById('istat').style.display='block';
+  document.getElementById('istat').textContent='Done — '+imported.length+' families ready';
+  let prev='<div class="alert success">'+imported.length+' parsed'+(errors.length?' · '+errors.length+' skipped':'')+'</div>';
+  if(errors.length)prev+='<div class="alert warn">'+errors.slice(0,4).join('<br>')+'</div>';
+  prev+='<div class="card" style="padding:0;overflow:hidden;margin-top:12px"><div style="overflow-x:auto"><table><thead><tr><th>Name</th><th>Rate</th><th>Method</th><th>Balance</th></tr></thead><tbody>';
+  imported.slice(0,6).forEach(c=>{const w=Math.max(0,weekly(c)*(c.weeksOwed||0)+(c.oldBalance||0)-(c.credit||0));prev+='<tr><td><b>'+c.name+'</b></td><td>'+(c.rateType==='hourly'?c.hoursPerWeek+'h×$'+c.ratePerHour:c.rateType==='flat-weekly'?'$'+c.flatAmount+'/wk':'$'+c.flatAmount+'/mo')+'</td><td><span class="badge '+(MB[c.payMethod]||'gray')+'">'+(ML[c.payMethod]||c.payMethod)+'</span></td><td><b style="color:#A32D2D">$'+w.toFixed(0)+'</b></td></tr>';});
+  if(imported.length>6)prev+='<tr><td colspan="4" style="text-align:center;padding:8px;color:#888">... and '+(imported.length-6)+' more</td></tr>';
+  prev+='</tbody></table></div></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" onclick="doImport()">Import all '+imported.length+'</button><button class="btn" onclick="document.getElementById(\'iprev\').innerHTML=\'\'">Cancel</button></div>';
   document.getElementById('iprev').innerHTML=prev;
   window._pend=imported;
 }
 
+function handleCSV(input){
+  const file=input.files[0];if(!file)return;
+  document.getElementById('istat').style.display='block';
+  document.getElementById('istat').textContent='Reading...';
+  const reader=new FileReader();
+  reader.onload=e=>processRows(parseCSV(e.target.result));
+  reader.readAsText(file);
+}
+
 function doImport(){
-  const arr=window._pend;if(!arr) return;
+  const arr=window._pend;if(!arr)return;
   const ex=new Set(clients.map(c=>c.name.toLowerCase()));
   let added=0,dup=0;
-  arr.forEach(c=>{if(ex.has(c.name.toLowerCase()))dup++;else{c.id=nid++;clients.push(c);added++;}});
-  save();renderAll();
-  document.getElementById('iprev').innerHTML=`<div class="alert as">✓ ${added} clients imported${dup?` · ${dup} duplicates skipped`:''}</div>`;
-  document.getElementById('ip').style.display='none';
+  arr.forEach(c=>{if(ex.has(c.name.toLowerCase()))dup++;else{c.id=nextId++;clients.push(c);added++;}});
+  persist();renderAll();
+  document.getElementById('iprev').innerHTML='<div class="alert success">✓ '+added+' imported'+(dup?' · '+dup+' duplicates skipped':'')+'</div>';
+  document.getElementById('istat').style.display='none';
 }
 
 function doPaste(){
-  const raw=document.getElementById('pa').value.trim();if(!raw) return;
-  const rows=raw.split('\n').map(r=>r.split('\t'));
-  processRows(rows);
+  const raw=document.getElementById('ptxt').value.trim();if(!raw)return;
+  processRows(raw.split('\n').map(r=>r.split('\t')));
 }
 
-const dz=document.getElementById('dz');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
-dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+const dz=document.getElementById('fi').parentElement;
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='#1D9E75';dz.style.background='#f0fbf7';});
+dz.addEventListener('dragleave',()=>{dz.style.borderColor='';dz.style.background='';});
 dz.addEventListener('drop',e=>{
-  e.preventDefault();dz.classList.remove('over');
-  const f=e.dataTransfer.files[0];if(!f) return;
-  const inp=document.getElementById('fi');
-  try{const dt=new DataTransfer();dt.items.add(f);inp.files=dt.files;}catch(e){}
+  e.preventDefault();dz.style.borderColor='';dz.style.background='';
+  const f=e.dataTransfer.files[0];if(!f)return;
   const reader=new FileReader();
-  reader.onload=ev=>{document.getElementById('ip').style.display='block';document.getElementById('is').textContent='Reading...';document.getElementById('ib').style.width='70%';processRows(parseCSV(ev.target.result));};
+  reader.onload=ev=>{document.getElementById('istat').style.display='block';document.getElementById('istat').textContent='Reading...';processRows(parseCSV(ev.target.result));};
   reader.readAsText(f);
 });
 
-document.querySelectorAll('.ni').forEach(el=>{
-  el.addEventListener('click',()=>{
+document.querySelectorAll('.nav a').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.preventDefault();
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-    document.getElementById('page-'+el.dataset.page).classList.add('active');
+    document.querySelectorAll('.nav a').forEach(n=>n.classList.remove('active'));
+    document.getElementById('page-'+el.dataset.p).classList.add('active');
     el.classList.add('active');
-    const p=el.dataset.page;
-    if(p==='dashboard') rD();
-    if(p==='clients') rC();
-    if(p==='history') rH();
+    const p=el.dataset.p;
+    if(p==='dashboard')renderDash();
+    if(p==='clients')renderClients();
+    if(p==='history')renderHistory();
   });
 });
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape') document.querySelectorAll('.overlay.open').forEach(m=>m.classList.remove('open'));});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(m=>m.classList.remove('open'));});
 
-load();
+init();
 </script>
 </body>
 </html>
